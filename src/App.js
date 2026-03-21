@@ -6,6 +6,21 @@ const NAV_LINKS = ["Home", "About", "Projects", "Skills", "Contact"];
 
 const PROJECTS = [
   {
+    title: "E-Commerce Microservices",
+    description:
+      "A full microservices e-commerce backend built with Spring Boot and PostgreSQL. Features 4 independent services — product, user, order and API gateway — each with its own database, JWT authentication, inter-service REST communication and Spring Cloud Gateway routing.",
+    tags: [
+      "Java",
+      "Spring Boot",
+      "Microservices",
+      "JWT",
+      "PostgreSQL",
+      "Spring Cloud",
+    ],
+    github: "https://github.com/devRubey/ecommerce-microservices",
+    accent: "#00ffe0",
+  },
+  {
     title: "BookLibraryAPI",
     description:
       "A RESTful API for managing a book library built with Spring Boot and PostgreSQL. Features full CRUD operations, book borrowing/returning system, pagination, API validation, and JUnit unit tests.",
@@ -57,9 +72,16 @@ const PROJECTS = [
 
 const SKILLS = {
   Languages: ["JavaScript", "Java", "HTML", "CSS"],
-  Frameworks: ["React", "Spring Boot", "Node.js"],
+  Frameworks: ["React", "Spring Boot", "Spring Cloud", "Node.js"],
   Tools: ["Git", "GitHub", "IntelliJ", "VS Code", "Postman"],
-  Concepts: ["Algorithms", "Data Structures", "REST APIs", "OOP", "Recursion"],
+  Concepts: [
+    "Algorithms",
+    "Data Structures",
+    "Microservices",
+    "REST APIs",
+    "JWT",
+    "OOP",
+  ],
 };
 
 // ── Animated terminal-style typewriter ──────────────────────────────
@@ -609,8 +631,8 @@ export default function Portfolio() {
             >
               I'm{" "}
               <strong style={{ color: "#00ffe0" }}>Udoh Ruben Ekereete</strong>,
-              a Software Engineer with a passion for writing clean, efficient
-              code and solving challenging problems.
+              an Aspiring Software Engineer with a passion for writing clean,
+              efficient code and solving challenging problems.
             </p>
             <p
               style={{
