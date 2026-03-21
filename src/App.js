@@ -230,7 +230,7 @@ function SectionLabel({ children }) {
           textTransform: "uppercase",
         }}
       >
-        // {children}
+        {/* {children} */}
       </span>
       <div
         style={{
@@ -346,7 +346,6 @@ function ProjectCard({ project, index }) {
 // ── Main App ─────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -364,7 +363,6 @@ export default function Portfolio() {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
   };
 
   return (
