@@ -1033,15 +1033,6 @@ export default function Portfolio() {
         >
           © 2025 Udoh Ruben Ekereete
         </span>
-        <span
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            color: "rgba(226,232,240,0.2)",
-            fontSize: 12,
-          }}
-        >
-          Built with React
-        </span>
       </footer>
     </div>
   );
