@@ -238,7 +238,7 @@ function SectionLabel({ children }) {
           textTransform: "uppercase",
         }}
       >
-        // {children}
+        {children}
       </span>
       <div
         style={{
@@ -354,7 +354,7 @@ function ProjectCard({ project, index }) {
 // ── Main App ─────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
