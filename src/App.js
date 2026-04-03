@@ -29,6 +29,14 @@ const PROJECTS = [
     accent: "#00ffe0",
   },
   {
+    title: "Library Frontend",
+    description:
+      "A React frontend connected to the BookLibraryAPI. Users can add books, borrow and return them, and delete them — all talking to a live Spring Boot REST API backed by PostgreSQL.",
+    tags: ["React", "JavaScript", "Axios", "CSS"],
+    github: "https://github.com/devRubey/library-frontend",
+    accent: "#f9a825",
+  },
+  {
     title: "CodingChallenges",
     description:
       "A structured collection of algorithms and data structures solved in JavaScript and Java. Covers sorting algorithms (Bubble, Merge, Quick), recursion patterns, and LeetCode-style problems with full complexity analysis.",
@@ -230,7 +238,7 @@ function SectionLabel({ children }) {
           textTransform: "uppercase",
         }}
       >
-        {/* {children} */}
+        // {children}
       </span>
       <div
         style={{
@@ -346,6 +354,7 @@ function ProjectCard({ project, index }) {
 // ── Main App ─────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("Home");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -363,6 +372,7 @@ export default function Portfolio() {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
   };
 
   return (
@@ -478,6 +488,32 @@ export default function Portfolio() {
           }}
         >
           GitHub ↗
+        </a>
+        <a
+          href="https://portfolio-devrubey.vercel.app"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "#7b61ff",
+            textDecoration: "none",
+            border: "1px solid #7b61ff44",
+            padding: "6px 16px",
+            borderRadius: 4,
+            transition: "all 0.2s",
+            marginLeft: 8,
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#7b61ff11";
+            e.target.style.borderColor = "#7b61ff";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "none";
+            e.target.style.borderColor = "#7b61ff44";
+          }}
+        >
+          Live Site ↗
         </a>
       </nav>
 
@@ -629,8 +665,8 @@ export default function Portfolio() {
             >
               I'm{" "}
               <strong style={{ color: "#00ffe0" }}>Udoh Ruben Ekereete</strong>,
-              an Aspiring Software Engineer with a passion for writing clean,
-              efficient code and solving challenging problems.
+              a Software Engineer with a passion for writing clean, efficient
+              code and solving challenging problems.
             </p>
             <p
               style={{
@@ -641,9 +677,12 @@ export default function Portfolio() {
                 marginBottom: 32,
               }}
             >
-              I enjoy building things from scratch — whether that's algorithms,
-              web apps, or developer tools. I believe in understanding the
-              fundamentals deeply, not just copying solutions.
+              I enjoy building things from scratch — whether that's
+              microservices, REST APIs, or web apps. I have experience as a Data
+              Manager on an Airline Reservation System — a high-concurrency
+              flight booking simulation with real-time seat management and
+              payment processing. I believe in understanding the fundamentals
+              deeply, not just copying solutions.
             </p>
             <a
               href={GITHUB}
@@ -659,6 +698,22 @@ export default function Portfolio() {
               }}
             >
               github.com/devRubey ↗
+            </a>
+            <a
+              href="https://portfolio-devrubey.vercel.app"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: "#00ffe0",
+                textDecoration: "none",
+                borderBottom: "1px solid #00ffe066",
+                paddingBottom: 2,
+                marginLeft: 24,
+              }}
+            >
+              portfolio-devrubey.vercel.app ↗
             </a>
           </div>
 
@@ -716,13 +771,18 @@ export default function Portfolio() {
   "name": "Udoh Ruben Ekereete",
   "role": "Software Engineer",
   "github": "devRubey",
-  "languages": [
-    "JavaScript",
-    "Java"
+  "portfolio": "portfolio-devrubey.vercel.app",
+  "experience": [
+    {
+      "role": "Data Manager",
+      "project": "Airline Reservation System",
+      "description": "High-concurrency flight booking simulation with seat management, payment processing and cancellation logic"
+    }
   ],
+  "languages": ["JavaScript", "Java"],
   "focus": [
-    "Algorithms",
-    "Web Development",
+    "Microservices",
+    "Backend Development",
     "Clean Code"
   ],
   "status": "open_to_work"
@@ -1032,6 +1092,15 @@ export default function Portfolio() {
           }}
         >
           © 2025 Udoh Ruben Ekereete
+        </span>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            color: "rgba(226,232,240,0.2)",
+            fontSize: 12,
+          }}
+        >
+          Built with React
         </span>
       </footer>
     </div>
