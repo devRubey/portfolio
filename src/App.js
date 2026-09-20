@@ -19,6 +19,8 @@ const PROJECTS = [
     ],
     github: "https://github.com/devRubey/Unmasked",
     live: "https://unmasked-1.onrender.com",
+    architecture:
+      "One synchronized Stockfish (UCI) process shared between full-game analysis and live bot moves; move history held in a single persistent chess.js instance to keep PGN generation reliable across a played game.",
     accent: "#00ffe0",
   },
   {
@@ -34,6 +36,8 @@ const PROJECTS = [
       "Spring Cloud",
     ],
     github: "https://github.com/devRubey/ecommerce-microservices",
+    architecture:
+      "API Gateway (:8080) routes to 3 independently-databased services — product (:8081), user (:8082), order (:8083) — with JWT issued by user-service and orders communicating across services over REST.",
     accent: "#00ffe0",
   },
   {
@@ -42,6 +46,8 @@ const PROJECTS = [
       "A RESTful API for managing a book library built with Spring Boot and PostgreSQL. Features full CRUD operations, book borrowing/returning system, pagination, API validation, and JUnit unit tests.",
     tags: ["Java", "Spring Boot", "PostgreSQL", "REST API", "JUnit"],
     github: "https://github.com/devRubey/BookLibraryAPI",
+    architecture:
+      "JUnit 5 + Mockito test suite covers the real edge cases, not just the happy path — duplicate ISBNs, not-found lookups, and pagination — alongside the core borrow/return workflow.",
     accent: "#00ffe0",
   },
   {
@@ -248,6 +254,9 @@ function ProjectCard({ project, index }) {
         boxShadow: hovered ? `0 0 32px ${project.accent}22` : "none",
         opacity: 0,
         animation: `fadeUp 0.5s ease ${index * 0.15}s forwards`,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
       }}
     >
       <div
@@ -261,8 +270,9 @@ function ProjectCard({ project, index }) {
         <h3
           style={{
             fontFamily: "'JetBrains Mono', monospace",
+            fontWeight: 700,
             color: project.accent,
-            fontSize: 18,
+            fontSize: 19,
             margin: 0,
           }}
         >
@@ -274,6 +284,7 @@ function ProjectCard({ project, index }) {
               href={project.live}
               target="_blank"
               rel="noreferrer"
+              aria-label={`View live demo of ${project.title}`}
               style={{
                 color: project.accent,
                 textDecoration: "none",
@@ -298,6 +309,7 @@ function ProjectCard({ project, index }) {
             href={project.github}
             target="_blank"
             rel="noreferrer"
+            aria-label={`View ${project.title} source code on GitHub`}
             style={{
               color: "rgba(255,255,255,0.4)",
               textDecoration: "none",
@@ -323,27 +335,51 @@ function ProjectCard({ project, index }) {
       </div>
       <p
         style={{
-          color: "rgba(226,232,240,0.65)",
+          color: "rgba(226,232,240,0.68)",
           lineHeight: 1.8,
           fontSize: 15,
-          margin: "0 0 20px",
+          margin: "0 0 16px",
           fontFamily: "'DM Sans', sans-serif",
         }}
       >
         {project.description}
       </p>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {project.architecture && (
+        <p
+          style={{
+            color: project.accent,
+            lineHeight: 1.7,
+            fontSize: 13,
+            margin: "0 0 20px",
+            fontFamily: "'JetBrains Mono', monospace",
+            opacity: 0.85,
+          }}
+        >
+          <span style={{ opacity: 0.6 }}>{"// "}</span>
+          {project.architecture}
+        </p>
+      )}
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          flexWrap: "wrap",
+          marginTop: "auto",
+          paddingTop: project.architecture ? 0 : 4,
+        }}
+      >
         {project.tags.map((tag) => (
           <span
             key={tag}
             style={{
               fontFamily: "'JetBrains Mono', monospace",
+              fontWeight: 600,
               fontSize: 11,
               color: project.accent,
-              background: `${project.accent}14`,
-              border: `1px solid ${project.accent}33`,
-              padding: "3px 10px",
-              borderRadius: 4,
+              background: `${project.accent}1a`,
+              border: `1px solid ${project.accent}40`,
+              padding: "4px 12px",
+              borderRadius: 20,
             }}
           >
             {tag}
@@ -351,6 +387,193 @@ function ProjectCard({ project, index }) {
         ))}
       </div>
     </div>
+  );
+}
+
+// ── Contact Form (Formspree — no backend needed) ────────────────────
+// Sign up free at formspree.io, create a form, and replace the ID below
+// with your own (e.g. "https://formspree.io/f/abcdwxyz").
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+function ContactForm() {
+  const [values, setValues] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+
+  const inputStyle = {
+    width: "100%",
+    background: "rgba(255,255,255,0.02)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    padding: "12px 14px",
+    color: "#e2e8f0",
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 14,
+    outline: "none",
+    transition: "border-color 0.2s",
+  };
+
+  const handleChange = (e) => {
+    setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(e.target),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setValues({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div
+        role="status"
+        style={{
+          border: "1px solid #00ffe044",
+          background: "rgba(0,255,224,0.04)",
+          borderRadius: 10,
+          padding: "24px",
+          fontFamily: "'JetBrains Mono', monospace",
+          color: "#00ffe0",
+          fontSize: 14,
+        }}
+      >
+        Message sent — thanks! I'll get back to you soon.
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", gap: 14 }}
+    >
+      <div>
+        <label
+          htmlFor="contact-name"
+          style={{
+            display: "block",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "rgba(226,232,240,0.5)",
+            marginBottom: 6,
+          }}
+        >
+          Name
+        </label>
+        <input
+          id="contact-name"
+          name="name"
+          type="text"
+          required
+          value={values.name}
+          onChange={handleChange}
+          style={inputStyle}
+          onFocus={(e) => (e.target.style.borderColor = "#00ffe066")}
+          onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="contact-email"
+          style={{
+            display: "block",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "rgba(226,232,240,0.5)",
+            marginBottom: 6,
+          }}
+        >
+          Email
+        </label>
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          required
+          value={values.email}
+          onChange={handleChange}
+          style={inputStyle}
+          onFocus={(e) => (e.target.style.borderColor = "#00ffe066")}
+          onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="contact-message"
+          style={{
+            display: "block",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "rgba(226,232,240,0.5)",
+            marginBottom: 6,
+          }}
+        >
+          Message
+        </label>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows={5}
+          required
+          value={values.message}
+          onChange={handleChange}
+          style={{ ...inputStyle, resize: "vertical", fontFamily: "'DM Sans', sans-serif" }}
+          onFocus={(e) => (e.target.style.borderColor = "#00ffe066")}
+          onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+        />
+      </div>
+
+      {status === "error" && (
+        <p
+          role="alert"
+          style={{
+            color: "#ff6b6b",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 13,
+          }}
+        >
+          Something went wrong — try again, or email me directly.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 13,
+          background: status === "sending" ? "rgba(0,255,224,0.4)" : "#00ffe0",
+          color: "#080c14",
+          border: "none",
+          padding: "12px 28px",
+          borderRadius: 6,
+          cursor: status === "sending" ? "default" : "pointer",
+          fontWeight: 700,
+          letterSpacing: 1,
+          width: "fit-content",
+          transition: "transform 0.2s",
+        }}
+        onMouseEnter={(e) => {
+          if (status !== "sending") e.target.style.transform = "scale(1.04)";
+        }}
+        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+      >
+        {status === "sending" ? "Sending…" : "Send Message"}
+      </button>
+    </form>
   );
 }
 
@@ -991,7 +1214,7 @@ export default function Portfolio() {
               <span
                 style={{
                   marginLeft: "auto",
-                  color: "rgba(226,232,240,0.25)",
+                  color: "rgba(226,232,240,0.4)",
                   fontSize: 18,
                 }}
               >
@@ -1064,13 +1287,28 @@ export default function Portfolio() {
               <span
                 style={{
                   marginLeft: "auto",
-                  color: "rgba(226,232,240,0.25)",
+                  color: "rgba(226,232,240,0.4)",
                   fontSize: 18,
                 }}
               >
                 ↗
               </span>
             </a>
+          </div>
+
+          <div style={{ marginTop: 40 }}>
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: "rgba(226,232,240,0.5)",
+                marginBottom: 16,
+                letterSpacing: 1,
+              }}
+            >
+              Or send a message directly
+            </p>
+            <ContactForm />
           </div>
         </div>
       </Section>
@@ -1090,7 +1328,7 @@ export default function Portfolio() {
         <span
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            color: "rgba(226,232,240,0.2)",
+            color: "rgba(226,232,240,0.42)",
             fontSize: 12,
           }}
         >
@@ -1099,7 +1337,7 @@ export default function Portfolio() {
         <span
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            color: "rgba(226,232,240,0.2)",
+            color: "rgba(226,232,240,0.42)",
             fontSize: 12,
           }}
         >
