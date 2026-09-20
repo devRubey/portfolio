@@ -6,6 +6,22 @@ const NAV_LINKS = ["Home", "About", "Projects", "Skills", "Contact"];
 
 const PROJECTS = [
   {
+    title: "Unmasked",
+    description:
+      "A full-stack chess analysis and coaching platform. Paste a PGN or play live against a Stockfish-powered bot (9 difficulty tiers, from Beginner to Impossible), and get plain-English move explanations instead of raw engine output — built with a React frontend, Spring Boot/JWT-secured API, PostgreSQL, and a real Stockfish (UCI) integration. Deployed as two Dockerized services on Render.",
+    tags: [
+      "React",
+      "Spring Boot",
+      "PostgreSQL",
+      "JWT",
+      "Stockfish (UCI)",
+      "Docker",
+    ],
+    github: "https://github.com/devRubey/Unmasked",
+    live: "https://unmasked-1.onrender.com",
+    accent: "#00ffe0",
+  },
+  {
     title: "E-Commerce Microservices",
     description:
       "A full microservices e-commerce backend built with Spring Boot and PostgreSQL. Features 4 independent services — product, user, order and API gateway — each with its own database, JWT authentication, inter-service REST communication and Spring Cloud Gateway routing.",
@@ -35,46 +51,6 @@ const PROJECTS = [
     tags: ["React", "JavaScript", "Axios", "CSS"],
     github: "https://github.com/devRubey/library-frontend",
     accent: "#f9a825",
-  },
-  {
-    title: "CodingChallenges",
-    description:
-      "A structured collection of algorithms and data structures solved in JavaScript and Java. Covers sorting algorithms (Bubble, Merge, Quick), recursion patterns, and LeetCode-style problems with full complexity analysis.",
-    tags: ["JavaScript", "Java", "Algorithms", "Data Structures"],
-    github: "https://github.com/devRubey/CodingChallenges",
-    accent: "#7b61ff",
-  },
-  {
-    title: "Rock Paper Scissors",
-    description:
-      "An interactive Rock Paper Scissors game built with JavaScript. Features a clean UI, score tracking, and real-time game logic against the computer.",
-    tags: ["JavaScript", "HTML", "CSS"],
-    github: "https://github.com/devRubey/Rock-Paper-Scissors",
-    accent: "#ff6b6b",
-  },
-  {
-    title: "Simple Static Quiz App",
-    description:
-      "A fun and interactive quiz application built with HTML, CSS and JavaScript. Tests users with multiple choice questions and tracks their score in real time.",
-    tags: ["JavaScript", "HTML", "CSS"],
-    github: "https://github.com/devRubey/Simple-Static-Quiz-App",
-    accent: "#f9a825",
-  },
-  {
-    title: "Photo Gallery",
-    description:
-      "A slick and responsive photo gallery built with HTML and CSS. Showcases images in a clean grid layout with smooth hover effects.",
-    tags: ["HTML", "CSS"],
-    github: "https://github.com/devRubey/Photo-Gallery",
-    accent: "#00e5ff",
-  },
-  {
-    title: "Pricing Table",
-    description:
-      "A responsive pricing comparison page built with HTML and CSS. Demonstrates layout skills with cards, typography, and clean styling — a common real-world web component.",
-    tags: ["HTML", "CSS"],
-    github: "https://github.com/devRubey/Pricing-Table---Comparison-Page",
-    accent: "#69ff47",
   },
 ];
 
@@ -292,31 +268,58 @@ function ProjectCard({ project, index }) {
         >
           {project.title}
         </h3>
-        <a
-          href={project.github}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            color: "rgba(255,255,255,0.4)",
-            textDecoration: "none",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 12,
-            border: "1px solid rgba(255,255,255,0.1)",
-            padding: "4px 12px",
-            borderRadius: 4,
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.color = project.accent;
-            e.target.style.borderColor = project.accent;
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.color = "rgba(255,255,255,0.4)";
-            e.target.style.borderColor = "rgba(255,255,255,0.1)";
-          }}
-        >
-          GitHub ↗
-        </a>
+        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: project.accent,
+                textDecoration: "none",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 12,
+                border: `1px solid ${project.accent}66`,
+                padding: "4px 12px",
+                borderRadius: 4,
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = `${project.accent}14`;
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "transparent";
+              }}
+            >
+              Live Site ↗
+            </a>
+          )}
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "rgba(255,255,255,0.4)",
+              textDecoration: "none",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 12,
+              border: "1px solid rgba(255,255,255,0.1)",
+              padding: "4px 12px",
+              borderRadius: 4,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = project.accent;
+              e.target.style.borderColor = project.accent;
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = "rgba(255,255,255,0.4)";
+              e.target.style.borderColor = "rgba(255,255,255,0.1)";
+            }}
+          >
+            GitHub ↗
+          </a>
+        </div>
       </div>
       <p
         style={{
