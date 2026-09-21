@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 const GITHUB = "https://github.com/devRubey";
+const RESUME_URL = `${process.env.PUBLIC_URL}/Udoh_Ruben_Ekereete_CV.pdf`;
 
 const NAV_LINKS = ["Home", "About", "Projects", "Skills", "Contact"];
 
@@ -38,6 +39,7 @@ const PROJECTS = [
     github: "https://github.com/devRubey/ecommerce-microservices",
     architecture:
       "API Gateway (:8080) routes to 3 independently-databased services — product (:8081), user (:8082), order (:8083) — with JWT issued by user-service and orders communicating across services over REST.",
+    diagram: "microservices",
     accent: "#00ffe0",
   },
   {
@@ -48,6 +50,7 @@ const PROJECTS = [
     github: "https://github.com/devRubey/BookLibraryAPI",
     architecture:
       "JUnit 5 + Mockito test suite covers the real edge cases, not just the happy path — duplicate ISBNs, not-found lookups, and pagination — alongside the core borrow/return workflow.",
+    diagram: "booklibrary",
     accent: "#00ffe0",
   },
   {
@@ -235,6 +238,104 @@ function SectionLabel({ children }) {
 }
 
 // ── Project Card ─────────────────────────────────────────────────────
+// ── Architecture Diagrams (lightweight inline SVG, no deps) ─────────
+function MicroservicesDiagram() {
+  const box = { fill: "rgba(0,255,224,0.06)", stroke: "#00ffe066" };
+  const label = { fontFamily: "'JetBrains Mono', monospace", fill: "#e2e8f0" };
+  const dim = { fontFamily: "'JetBrains Mono', monospace", fill: "rgba(226,232,240,0.5)" };
+  return (
+    <svg
+      viewBox="0 0 460 190"
+      style={{ width: "100%", height: "auto", display: "block" }}
+      role="img"
+      aria-label="Architecture diagram: API Gateway routing to product, user, and order services, each with its own database"
+    >
+      {/* Gateway */}
+      <rect x="160" y="10" width="140" height="36" rx="6" {...box} />
+      <text x="230" y="33" textAnchor="middle" fontSize="12" {...label}>
+        API Gateway :8080
+      </text>
+
+      {/* connectors */}
+      <line x1="230" y1="46" x2="70" y2="80" stroke="#00ffe044" strokeWidth="1.5" />
+      <line x1="230" y1="46" x2="230" y2="80" stroke="#00ffe044" strokeWidth="1.5" />
+      <line x1="230" y1="46" x2="390" y2="80" stroke="#00ffe044" strokeWidth="1.5" />
+
+      {/* Product service */}
+      <rect x="10" y="80" width="120" height="36" rx="6" {...box} />
+      <text x="70" y="103" textAnchor="middle" fontSize="11" {...label}>
+        product :8081
+      </text>
+      <rect x="35" y="134" width="70" height="26" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" />
+      <text x="70" y="151" textAnchor="middle" fontSize="10" {...dim}>DB</text>
+
+      {/* User service */}
+      <rect x="170" y="80" width="120" height="36" rx="6" {...box} />
+      <text x="230" y="103" textAnchor="middle" fontSize="11" {...label}>
+        user :8082
+      </text>
+      <rect x="195" y="134" width="70" height="26" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" />
+      <text x="230" y="151" textAnchor="middle" fontSize="10" {...dim}>DB</text>
+      <text x="230" y="176" textAnchor="middle" fontSize="9" fill="#7b61ffbb" fontFamily="'JetBrains Mono', monospace">
+        issues JWT
+      </text>
+
+      {/* Order service */}
+      <rect x="330" y="80" width="120" height="36" rx="6" {...box} />
+      <text x="390" y="103" textAnchor="middle" fontSize="11" {...label}>
+        order :8083
+      </text>
+      <rect x="355" y="134" width="70" height="26" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" />
+      <text x="390" y="151" textAnchor="middle" fontSize="10" {...dim}>DB</text>
+
+      {/* order -> user REST check */}
+      <line x1="330" y1="98" x2="290" y2="98" stroke="#7b61ff66" strokeWidth="1.5" strokeDasharray="3,3" />
+      <text x="310" y="90" textAnchor="middle" fontSize="8" fill="#7b61ffbb" fontFamily="'JetBrains Mono', monospace">
+        REST
+      </text>
+    </svg>
+  );
+}
+
+function BookLibraryDiagram() {
+  const box = { fill: "rgba(0,255,224,0.06)", stroke: "#00ffe066" };
+  const label = { fontFamily: "'JetBrains Mono', monospace", fill: "#e2e8f0", fontSize: "11" };
+  return (
+    <svg
+      viewBox="0 0 460 100"
+      style={{ width: "100%", height: "auto", display: "block" }}
+      role="img"
+      aria-label="Architecture diagram: Client sends REST requests to the Spring Boot API, which reads and writes to PostgreSQL"
+    >
+      <rect x="10" y="32" width="110" height="36" rx="6" {...box} />
+      <text x="65" y="55" textAnchor="middle" {...label}>Client</text>
+
+      <line x1="120" y1="50" x2="175" y2="50" stroke="#00ffe044" strokeWidth="1.5" />
+      <text x="147" y="42" textAnchor="middle" fontSize="8" fill="rgba(226,232,240,0.5)" fontFamily="'JetBrains Mono', monospace">
+        REST
+      </text>
+
+      <rect x="175" y="32" width="150" height="36" rx="6" {...box} />
+      <text x="250" y="55" textAnchor="middle" {...label}>Spring Boot API</text>
+
+      <line x1="325" y1="50" x2="380" y2="50" stroke="#00ffe044" strokeWidth="1.5" />
+      <text x="352" y="42" textAnchor="middle" fontSize="8" fill="rgba(226,232,240,0.5)" fontFamily="'JetBrains Mono', monospace">
+        JDBC
+      </text>
+
+      <rect x="380" y="32" width="70" height="36" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" />
+      <text x="415" y="55" textAnchor="middle" fontSize="11" fontFamily="'JetBrains Mono', monospace" fill="#e2e8f0">
+        Postgres
+      </text>
+    </svg>
+  );
+}
+
+const DIAGRAMS = {
+  microservices: MicroservicesDiagram,
+  booklibrary: BookLibraryDiagram,
+};
+
 function ProjectCard({ project, index }) {
   const [hovered, setHovered] = useState(false);
 
@@ -358,6 +459,22 @@ function ProjectCard({ project, index }) {
           <span style={{ opacity: 0.6 }}>{"// "}</span>
           {project.architecture}
         </p>
+      )}
+      {project.diagram && DIAGRAMS[project.diagram] && (
+        <div
+          style={{
+            background: "rgba(255,255,255,0.015)",
+            border: "1px solid rgba(255,255,255,0.06)",
+            borderRadius: 8,
+            padding: "14px 10px",
+            marginBottom: 20,
+          }}
+        >
+          {(() => {
+            const Diagram = DIAGRAMS[project.diagram];
+            return <Diagram />;
+          })()}
+        </div>
       )}
       <div
         style={{
@@ -854,6 +971,36 @@ export default function Portfolio() {
             >
               Contact Me
             </button>
+            <a
+              href={RESUME_URL}
+              download="Udoh_Ruben_Ekereete_CV.pdf"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                background: "transparent",
+                color: "#7b61ff",
+                border: "1px solid #7b61ff44",
+                padding: "12px 28px",
+                borderRadius: 6,
+                cursor: "pointer",
+                letterSpacing: 1,
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#7b61ff11";
+                e.currentTarget.style.borderColor = "#7b61ff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.borderColor = "#7b61ff44";
+              }}
+            >
+              ↓ Download Resume
+            </a>
           </div>
         </div>
       </Section>
@@ -1332,7 +1479,7 @@ export default function Portfolio() {
             fontSize: 12,
           }}
         >
-          © 2025 Udoh Ruben Ekereete
+          © 2026 Udoh Ruben Ekereete
         </span>
         <span
           style={{
