@@ -510,7 +510,7 @@ function ProjectCard({ project, index }) {
 // ── Contact Form (Formspree — no backend needed) ────────────────────
 // Sign up free at formspree.io, create a form, and replace the ID below
 // with your own (e.g. "https://formspree.io/f/abcdwxyz").
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjykadvr";
 
 function ContactForm() {
   const [values, setValues] = useState({ name: "", email: "", message: "" });
